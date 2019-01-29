@@ -15,11 +15,12 @@ function generateSearchQuery(
   zendeskAgentEmail: string,
   daysAgo: number,
 ) {
-  return `${zendeskUrl}search.json?query=commenter:${zendeskAgentEmail}%20updated>${daysAgo}days`;
+  return `${zendeskUrl}/api/v2/search.json?query=commenter:${zendeskAgentEmail}%20updated>${daysAgo}days`;
 }
 
-function fetchPage(url: string) {}
-
+function randMax(max: number) {
+  return Math.round(Math.random() * max);
+}
 async function fetchTickets(tickets: any[], url: string): Promise<any[]> {
   return new Promise((resolve, reject) => {
     request.get(
@@ -44,7 +45,11 @@ async function fetchTickets(tickets: any[], url: string): Promise<any[]> {
 }
 
 function getTicketCount(res: any) {
-  console.log("l: ", res.length);
+  return res.length;
+}
+
+function getRandomTicketID(res: any) {
+  return res[randMax(getTicketCount(res))].id;
 }
 
 function appendResults(originalResults: any, resultsToAdd: any) {
@@ -61,7 +66,10 @@ async function run() {
   let tickets: any[] = [];
   tickets = await fetchTickets(tickets, fetchURL);
   console.log("moo");
-  getTicketCount(tickets);
+  console.log(`Located ${getTicketCount(tickets)} tickets.`);
+  console.log(
+    `Random ticket: ${ZENDESK_URL}/agent/tickets/${getRandomTicketID(tickets)}`,
+  );
 }
 
 run();
