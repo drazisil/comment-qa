@@ -41,8 +41,9 @@ test("getRandomTicketID gets a random id", () => {
 
 test("randMax returns a random number", () => {
   const tickets = randMax(4);
-  expect(tickets).toBeGreaterThan(0);
-  expect(tickets).toBeLessThan(4);
+
+  expect(tickets).toBeGreaterThan(-1);
+  expect(tickets).toBeLessThan(5);
 });
 
 test("generateSearchQuery can generate query", () => {

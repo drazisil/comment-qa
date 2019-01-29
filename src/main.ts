@@ -52,7 +52,7 @@ export function getTicketCount(res: any) {
 }
 
 export function getRandomTicketID(res: any): number {
-  return res[randMax(getTicketCount(res))].id;
+  return res[randMax(getTicketCount(res)) - 1].id;
 }
 
 export function appendResults(originalResults: any, resultsToAdd: any[]) {
