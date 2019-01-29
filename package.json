@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "jest": "^23.6.0",
+    "jest-junit": "^6.2.1",
     "ts-jest": "^23.10.5"
   },
   "jest": {
@@ -42,6 +43,19 @@
       "lcov",
       "html",
       "text"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
     ]
+  },
+  "jest-junit": {
+    "suiteName": "jest tests",
+    "outputDirectory": "./test_results",
+    "outputName": "./junit.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }
