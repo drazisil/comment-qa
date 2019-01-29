@@ -6,20 +6,42 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "start2": "node -r ts-node/register --inspect src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Joseph W Becher <jwbecher@drazisil.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
     "@types/request": "^2.48.1",
     "dotenv-safe": "^6.1.0",
-    "jest": "^24.0.0",
     "request": "^2.88.0",
-    "ts-jest": "^23.10.5",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.5"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": -10
+      }
+    },
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "html",
+      "text"
+    ]
   }
 }
