@@ -1,5 +1,7 @@
 require("dotenv-safe").config();
+import * as inquirer from "inquirer";
 import * as request from "request";
+const prompt = inquirer.createPromptModule();
 
 const {
   ZENDESK_EMAIL,
@@ -63,11 +65,36 @@ export function appendResults(originalResults: any, resultsToAdd: any[]) {
   return newResults;
 }
 
+interface IAanswers {
+  daysAgo: number;
+}
+
 export async function run() {
-  const fetchURL = generateSearchQuery(ZENDESK_URL!, ZENDESK_AGENT_EMAIL!, 30);
+  const answers: IAanswers = await prompt([
+    {
+      default: 30,
+      message: "Query tickets how many days back?",
+      name: "daysAgo",
+      type: "input",
+      validate(value) {
+        const pass = !isNaN(parseInt(value, 10));
+        if (pass) {
+          return true;
+        }
+
+        return "Please enter a valid number";
+      },
+    },
+  ]);
+  const { daysAgo } = answers;
+  const fetchURL = generateSearchQuery(
+    ZENDESK_URL!,
+    ZENDESK_AGENT_EMAIL!,
+    daysAgo,
+  );
   let tickets: any[] = [];
+  console.log(`Fetching tickets from ${daysAgo} days ago...`);
   tickets = await fetchTickets(tickets, fetchURL);
-  console.log("moo");
   console.log(`Located ${getTicketCount(tickets)} tickets.`);
   console.log(
     `Random ticket: ${ZENDESK_URL}/agent/tickets/${getRandomTicketID(tickets)}`,
