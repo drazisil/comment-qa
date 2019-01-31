@@ -1,4 +1,5 @@
-require("dotenv-safe").config();
+import * as dotenvSafe from "dotenv-safe";
+dotenvSafe.config();
 import * as request from "request";
 
 export function generateSearchQuery(
