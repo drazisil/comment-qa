@@ -1,51 +1,18 @@
 import * as dotenvSafe from "dotenv-safe";
+import * as inquirer from "inquirer";
+
 dotenvSafe.config();
-import * as request from "request";
 
 export function generateSearchQuery(
   zendeskUrl: any,
   zendeskAgentEmail: any,
-  daysAgo: number,
+  fromDate: string,
 ) {
-  return `${zendeskUrl}/api/v2/search.json?query=commenter:${zendeskAgentEmail}%20updated>${daysAgo}days`;
+  return `${zendeskUrl}/api/v2/search.json?query=commenter:${zendeskAgentEmail}%20updated>${fromDate}`;
 }
 
 export function randMax(max: number) {
   return Math.round(Math.random() * max);
-}
-export async function fetchTickets(
-  tickets: any[],
-  url: string,
-  zendeskEmail: any,
-  zendeskApiToken: any,
-): Promise<any[]> {
-  return new Promise((resolve, reject) => {
-    request.get(
-      url,
-      {
-        auth: {
-          pass: zendeskApiToken,
-          sendImmediately: false,
-          user: `${zendeskEmail}/token`,
-        },
-      },
-      async (error, response, body) => {
-        const info = JSON.parse(body);
-        tickets = tickets.concat(info.results);
-        if (info.next_page) {
-          resolve(
-            await fetchTickets(
-              tickets,
-              info.next_page,
-              zendeskEmail,
-              zendeskApiToken,
-            ),
-          );
-        }
-        resolve(tickets);
-      },
-    );
-  });
 }
 
 export function getTicketCount(res: any) {

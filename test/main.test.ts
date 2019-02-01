@@ -9,21 +9,6 @@ test("appendResults return the array when not passed anything to add", () => {
   expect(testApp.appendResults([1, 2], [])).toEqual([1, 2]);
 });
 
-test("fetchTickets returns array with only one page", async () => {
-  expect.assertions(1);
-  await expect(testApp.fetchTickets([], "foo", "bar", "baz")).resolves.toEqual([
-    { id: 1 },
-  ]);
-});
-
-test("fetchTickets returns array with more then one page", async () => {
-  expect.assertions(1);
-  await expect(testApp.fetchTickets([], "moo", "foo", "pan")).resolves.toEqual([
-    { id: 1 },
-    { id: 1 },
-  ]);
-});
-
 test("getTicketCount can get length", () => {
   expect(testApp.getTicketCount([1, 2, 3, 4])).toEqual(4);
 });
@@ -42,7 +27,7 @@ test("randMax returns a random number", () => {
 });
 
 test("generateSearchQuery can generate query", () => {
-  expect(testApp.generateSearchQuery("moo", "a@b.com", 5)).toEqual(
-    "moo/api/v2/search.json?query=commenter:a@b.com%20updated>5days",
+  expect(testApp.generateSearchQuery("moo", "a@b.com", "2019-01-01")).toEqual(
+    "moo/api/v2/search.json?query=commenter:a@b.com%20updated>2019-01-01",
   );
 });
